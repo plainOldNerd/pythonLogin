@@ -1,0 +1,19 @@
+<html>
+<head>
+    <script type="text/javascript" src="scripts/login.js"></script>
+</head>
+<body>
+    <form id="form" action="./" method="post">
+        Username: <input name="username" type="text" /><br />
+        Password: <input name="password" type="password" /><br />
+        Favourite colour: 
+        <select name="faveColour" id="faveColour"></select><br />
+        Favourite animal: <input name="faveAnimal" type="text" /><br />
+        Favourite size: <select name="animalSize" id="animalSize"></select><br />
+        <button type="submit">Submit</button>
+        <div id="forbiddenChars" style="color:red; display:none;">
+            Text input fields must not contain the = or & characters!
+        </div>
+    </form>
+</body>
+</html>
