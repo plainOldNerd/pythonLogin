@@ -69,13 +69,14 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     for key in formKeyValues.keys():
                         print(key, ' = ', formKeyValues[key])
                     '''
-                    response = '<div style="color: '
-                    response += formKeyValues['faveColour']
-                    response += ';">hello '
-                    response += formKeyValues['username']
-                    response += ', your favourite animal is a '
-                    response += formKeyValues['animalSize'] + ' '
-                    response += formKeyValues['faveAnimal'] + '</div>'
+                    response = f'''<div style="color:
+                    {formKeyValues['faveColour']}
+                    ;">hello
+                    {formKeyValues['username']}, 
+                    your favourite animal is a
+                    {formKeyValues['animalSize']}
+                    {formKeyValues['faveAnimal']} </div>
+                    '''
                     self.wfile.write(bytes(response, 'utf-8'))
                 except:
                     self.send_response(404)
@@ -96,7 +97,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     actualRequestLine = unquote(postbody.decode('utf-8'))
                     formKeyValues = splitFormValues(actualRequestLine)
 
-                    usernameExists = True
+                    usernameExists = False
                     response = json.dumps({
                         "usernameExists": usernameExists
                     })
