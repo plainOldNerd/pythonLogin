@@ -8,7 +8,23 @@
                 body: "username=" + node.value,
             }).then(async response => {
                 const responseValue = await response.json();
-                console.log(responseValue.usernameExists);
+                if(responseValue.usernameExists) {
+                    let submitButton = document.getElementById('submitButton');
+                    submitButton.value = 'Login';
+                    submitButton.innerHTML = 'Login';
+                    document.getElementById('signUpBits').style.display = 'none';
+
+                    let faveAnimal = document.getElementById('faveAnimal');
+                    faveAnimal.required = false;
+                } else {
+                    let submitButton = document.getElementById('submitButton');
+                    submitButton.value = 'Sign Up';
+                    submitButton.innerHTML = 'Sign Up';
+                    document.getElementById('signUpBits').style.display = 'block';
+
+                    let faveAnimal = document.getElementById('faveAnimal');
+                    faveAnimal.required = true;
+                }
             });
         };
     </script>
@@ -22,11 +38,20 @@
             required
         /><br />
         Password: <input name="password" type="password" required/><br />
-        Favourite colour: 
-        <select name="faveColour" id="faveColour"></select><br />
-        Favourite animal: <input name="faveAnimal" type="text" /><br />
-        Favourite size: <select name="animalSize" id="animalSize"></select><br />
-        <button type="submit">Submit</button>
+        <div id="signUpBits" style="display:none;">
+            Favourite colour: 
+            <select name="faveColour" id="faveColour"></select><br />
+            Favourite animal: <input name="faveAnimal" id="faveAnimal" /><br />
+            Favourite size: <select name="animalSize" id="animalSize"></select><br />
+        </div>
+        <br />
+        <button 
+            type="submit" 
+            id="submitButton"
+            value="login"
+        >
+            Login
+        </button>
         <div id="forbiddenChars" style="color:red; display:none;">
             Text input fields must not contain the = or & characters!
         </div>

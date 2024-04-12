@@ -96,8 +96,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     actualRequestLine = unquote(postbody.decode('utf-8'))
                     formKeyValues = splitFormValues(actualRequestLine)
 
+                    usernameExists = False
                     response = json.dumps({
-                        "usernameExists": "false"
+                        "usernameExists": usernameExists
                     })
                     self.wfile.write(bytes(response, 'utf-8'))
                 except:
