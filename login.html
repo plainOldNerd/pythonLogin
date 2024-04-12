@@ -1,11 +1,27 @@
 <html>
 <head>
     <script type="text/javascript" src="scripts/login.js"></script>
+    <script>
+        const handleUsernameChange = async node => {
+            fetch('/checkUsernameExists', {
+                method: "POST",
+                body: "username=" + node.value,
+            }).then(async response => {
+                const responseValue = await response.json();
+                console.log(responseValue.usernameExists);
+            });
+        };
+    </script>
 </head>
 <body>
     <form id="form" action="./" method="post">
-        Username: <input name="username" type="text" /><br />
-        Password: <input name="password" type="password" /><br />
+        Username: <input 
+            name="username" 
+            type="text" 
+            onchange="handleUsernameChange(this)"
+            required
+        /><br />
+        Password: <input name="password" type="password" required/><br />
         Favourite colour: 
         <select name="faveColour" id="faveColour"></select><br />
         Favourite animal: <input name="faveAnimal" type="text" /><br />
