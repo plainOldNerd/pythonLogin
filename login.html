@@ -10,20 +10,22 @@
                 const responseValue = await response.json();
                 if(responseValue.usernameExists) {
                     let submitButton = document.getElementById('submitButton');
-                    submitButton.value = 'Login';
                     submitButton.innerHTML = 'Login';
                     document.getElementById('signUpBits').style.display = 'none';
 
                     let faveAnimal = document.getElementById('faveAnimal');
                     faveAnimal.required = false;
+                    let hiddenInput = document.getElementById('signupOrLogin');
+                    hiddenInput.value = 'login';
                 } else {
                     let submitButton = document.getElementById('submitButton');
-                    submitButton.value = 'Sign Up';
                     submitButton.innerHTML = 'Sign Up';
                     document.getElementById('signUpBits').style.display = 'block';
 
                     let faveAnimal = document.getElementById('faveAnimal');
                     faveAnimal.required = true;
+                    let hiddenInput = document.getElementById('signupOrLogin');
+                    hiddenInput.value = 'signup';
                 }
             });
         };
@@ -55,6 +57,12 @@
         <div id="forbiddenChars" style="color:red; display:none;">
             Text input fields must not contain the = or & characters!
         </div>
+        <input
+            name="hiddenInput"
+            id="signupOrLogin"
+            value="login"
+            style="display:none;"
+        />
     </form>
 </body>
 </html>

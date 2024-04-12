@@ -63,7 +63,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     #https://www.freecodecamp.org/news/python-bytes-to-string-how-to-convert-a-bytestring/
                     #https://stackoverflow.com/questions/33143504/how-do-i-encode-decode-percent-encoded-url-strings-in-python
                     actualRequestLine = unquote(postbody.decode('utf-8'))
-                    #print(actualRequestLine)
+                    print(actualRequestLine)
                     formKeyValues = splitFormValues(actualRequestLine)
                     '''
                     for key in formKeyValues.keys():
@@ -96,7 +96,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     actualRequestLine = unquote(postbody.decode('utf-8'))
                     formKeyValues = splitFormValues(actualRequestLine)
 
-                    usernameExists = False
+                    usernameExists = True
                     response = json.dumps({
                         "usernameExists": usernameExists
                     })
