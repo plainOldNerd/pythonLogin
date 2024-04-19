@@ -3,6 +3,7 @@ from urllib.parse import unquote
 import json
 
 import dbCreate
+import dbOps
 
 ''' This function splits the POST values into key and value pairs
     i.e. it splits the string about the & sign, and then about the
@@ -65,6 +66,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     actualRequestLine = unquote(postbody.decode('utf-8'))
                     print(actualRequestLine)
                     formKeyValues = splitFormValues(actualRequestLine)
+
                     '''
                     for key in formKeyValues.keys():
                         print(key, ' = ', formKeyValues[key])
@@ -96,8 +98,11 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     #https://stackoverflow.com/questions/33143504/how-do-i-encode-decode-percent-encoded-url-strings-in-python
                     actualRequestLine = unquote(postbody.decode('utf-8'))
                     formKeyValues = splitFormValues(actualRequestLine)
+                    
+                    username = formKeyValues['username']
+                    usernameExists = dbOps.queryUsernameExists(username)
 
-                    usernameExists = False
+                    #usernameExists = False
                     response = json.dumps({
                         "usernameExists": usernameExists
                     })
