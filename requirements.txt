@@ -1,1 +1,0 @@
-https://dlm.mariadb.com/3677127/Connectors/c/connector-c-3.3.8/mariadb-connector-c-3.3.8-src.tar.gz

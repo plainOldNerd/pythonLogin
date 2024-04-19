@@ -4,7 +4,7 @@ import mysql.connector as connector
 
 def queryUsernameExists(username):
     conn = connector.connect(host=dbConfig.host, user=dbConfig.user, password=dbConfig.pwd, database=dbConfig.db)
-    numResults = -1
+    password = ''
     if conn.is_connected():
         print('queryUsernameExists says \'connected\'')
 
@@ -12,17 +12,20 @@ def queryUsernameExists(username):
         cursor = conn.cursor(buffered=True)
         #https://www.freecodecamp.org/news/how-to-lowercase-python-string/
         #https://www.tutorialspoint.com/is-there-a-mysql-command-to-convert-a-string-to-lowercase#:~:text=Yes%2C%20you%20can%20use%20the,convert%20the%20string%20into%20lowercase.&text=lower('yourStringValue)%3B,you%20can%20use%20LCASE()
-        query = f'''select username
+        query = f'''select username, password
         from Users
         where lower(username) = '{username.lower()}';
         '''
         cursor.execute(query)
         numResults = cursor.rowcount
+        if numResults == 1:
+            row = cursor.fetchone()
+            password = row[1]
 
         conn.close()
     else:
         print('DBMS said to fuck off')
-    return numResults == 1
+    return password
 
 '''
 insert into Users (username, password, faveColor, faveSize, faveAnimal)

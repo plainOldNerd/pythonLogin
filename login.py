@@ -101,8 +101,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     
                     username = formKeyValues['username']
                     usernameExists = dbOps.queryUsernameExists(username)
-
-                    #usernameExists = False
+                    
                     response = json.dumps({
                         "usernameExists": usernameExists
                     })

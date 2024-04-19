@@ -1,35 +1,6 @@
 <html>
 <head>
     <script type="text/javascript" src="scripts/login.js"></script>
-    <script>
-        const handleUsernameChange = async node => {
-            fetch('/checkUsernameExists', {
-                method: "POST",
-                body: "username=" + node.value,
-            }).then(async response => {
-                const responseValue = await response.json();
-                if(responseValue.usernameExists) {
-                    let submitButton = document.getElementById('submitButton');
-                    submitButton.innerHTML = 'Login';
-                    document.getElementById('signUpBits').style.display = 'none';
-
-                    let faveAnimal = document.getElementById('faveAnimal');
-                    faveAnimal.required = false;
-                    let hiddenInput = document.getElementById('signupOrLogin');
-                    hiddenInput.value = 'login';
-                } else {
-                    let submitButton = document.getElementById('submitButton');
-                    submitButton.innerHTML = 'Sign Up';
-                    document.getElementById('signUpBits').style.display = 'block';
-
-                    let faveAnimal = document.getElementById('faveAnimal');
-                    faveAnimal.required = true;
-                    let hiddenInput = document.getElementById('signupOrLogin');
-                    hiddenInput.value = 'signup';
-                }
-            });
-        };
-    </script>
 </head>
 <body>
     <form id="form" action="./" method="post">
@@ -39,7 +10,7 @@
             onchange="handleUsernameChange(this)"
             required
         /><br />
-        Password: <input name="password" type="password" required/><br />
+        Password: <input id="password" name="password" type="password" required/><br />
         <div id="signUpBits" style="display:none;">
             Favourite colour: 
             <select name="faveColour" id="faveColour"></select><br />
@@ -56,6 +27,9 @@
         </button>
         <div id="forbiddenChars" style="color:red; display:none;">
             Text input fields must not contain the = or & characters!
+        </div>
+        <div id="wrongPassword" style="color:red; display:none;">
+            Guess again at the password moron!
         </div>
         <input
             name="hiddenInput"
