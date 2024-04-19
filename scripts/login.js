@@ -31,14 +31,14 @@ const handleUsernameChange = async node => {
 };
 
 window.onload = e => {
-    const colours = ['Aqua', 'Black', 'Blue', 'Fuchsia', 'Gray', 'Green', 'Lime', 
+    const colors = ['Aqua', 'Black', 'Blue', 'Fuchsia', 'Gray', 'Green', 'Lime', 
         'Maroon', 'Navy', 'Olive', 'Purple', 'Red', 'Silver', 'Teal', 'Yellow'];
 
-    let coloursDropdown = document.getElementById('faveColour');
-    colours.forEach(colour => {
-        coloursDropdown.innerHTML +=
-            "<option value=\"" + colour.toLowerCase() + "\">" + 
-                colour + 
+    let colorsDropdown = document.getElementById('faveColor');
+    colors.forEach(color => {
+        colorsDropdown.innerHTML +=
+            "<option value=\"" + color.toLowerCase() + "\">" + 
+                color + 
             "</option>";
     });
 
@@ -69,7 +69,7 @@ window.onload = e => {
             document.getElementById('forbiddenChars').style.display = 'none';
         }
         const userEnteredPassword = document.getElementById('password').value;
-        if( userEnteredPassword !== password ) {
+        if( userEnteredPassword !== password && password !== '') {
             shouldSubmit = false;
             document.getElementById('wrongPassword').style.display = '';
         }

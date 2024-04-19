@@ -27,7 +27,34 @@ def queryUsernameExists(username):
         print('DBMS said to fuck off')
     return password
 
-'''
-insert into Users (username, password, faveColor, faveSize, faveAnimal)
-values ('LoOnUticKe', 'password', 'aqua', 'tiny', 'dog');
-'''
+def getUserData(username):
+    conn = connector.connect(host=dbConfig.host, user=dbConfig.user, password=dbConfig.pwd, database=dbConfig.db)
+    row = ()
+    if conn.is_connected():
+        cursor = conn.cursor(buffered=True)
+        query = f'''select username, faveColor, faveSize, faveAnimal
+        from Users
+        where lower(username) = '{username.lower()}';
+        '''
+        cursor.execute(query)
+        row = cursor.fetchone()
+        conn.close()
+    else:
+        print('DBMS said to fuck off')
+    print('now finishing getuserdata')
+    return row
+
+def insertUser(username, password, faveColor, faveSize, faveAnimal):
+    conn = connector.connect(host=dbConfig.host, user=dbConfig.user, password=dbConfig.pwd, database=dbConfig.db)
+    if conn.is_connected():
+        try:
+            cursor = conn.cursor(buffered=True)
+            query = f'''insert into Users (username, password, faveColor, faveSize, faveAnimal)
+            values ('{username}', '{password}', '{faveColor}', '{faveSize}', '{faveAnimal}');'''
+            cursor.execute(query)
+            #https://stackoverflow.com/questions/6027271/python-mysql-insert-not-working
+            conn.commit()
+            conn.close()
+        except:
+            print('something f**ked up inserting user into DB')
+    return

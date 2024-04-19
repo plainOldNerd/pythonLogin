@@ -2,8 +2,8 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import unquote
 import json
 
-import dbCreate
 import dbOps
+import dataTemplate
 
 ''' This function splits the POST values into key and value pairs
     i.e. it splits the string about the & sign, and then about the
@@ -64,27 +64,52 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     #https://www.freecodecamp.org/news/python-bytes-to-string-how-to-convert-a-bytestring/
                     #https://stackoverflow.com/questions/33143504/how-do-i-encode-decode-percent-encoded-url-strings-in-python
                     actualRequestLine = unquote(postbody.decode('utf-8'))
-                    print(actualRequestLine)
                     formKeyValues = splitFormValues(actualRequestLine)
-
                     '''
                     for key in formKeyValues.keys():
                         print(key, ' = ', formKeyValues[key])
                     '''
-                    response = f'''<div style="color:
-                    {formKeyValues['faveColour']}
-                    ;">hello
-                    {formKeyValues['username']}, 
-                    your favourite animal is a
-                    {formKeyValues['animalSize']}
-                    {formKeyValues['faveAnimal']} </div>
-                    '''
-                    self.wfile.write(bytes(response, 'utf-8'))
+                    match formKeyValues['hiddenInput']:
+                        case 'login':
+                            userData = dbOps.getUserData( formKeyValues['username'] )
+                            username = userData[0]
+                            faveColor = userData[1]
+                            faveSize = userData[2]
+                            faveAnimal = userData[3]
+                            response = dataTemplate.htmlTemplate(
+                                username,
+                                faveColor,
+                                faveSize,
+                                faveAnimal
+                            )
+                            self.wfile.write(bytes(response, 'utf-8'))
+                        case 'signup':
+                            username = formKeyValues['username']
+                            password = formKeyValues['password']
+                            faveColor = formKeyValues['faveColor']
+                            faveSize = formKeyValues['faveSize']
+                            faveAnimal = formKeyValues['faveAnimal']
+                            dbOps.insertUser(
+                                username,
+                                password,
+                                faveColor,
+                                faveSize,
+                                faveAnimal
+                            )
+                            response = dataTemplate.htmlTemplate(
+                                username,
+                                faveColor,
+                                faveSize,
+                                faveAnimal
+                            )
+                            self.wfile.write(bytes(response, 'utf-8'))
+                        case _:
+                            print('something went wrong in match')
                 except:
                     self.send_response(404)
                     self.send_header('Content-type', 'text/html')
                     self.end_headers()
-                    self.wfile.write(bytes('Something f**ked up in POST! Sorry.', 'utf-8'))
+                    self.wfile.write(bytes('Something messed up in POST! Sorry.', 'utf-8'))
 
             case '/checkUsernameExists':
                 try:
@@ -101,7 +126,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     
                     username = formKeyValues['username']
                     usernameExists = dbOps.queryUsernameExists(username)
-                    
+
                     response = json.dumps({
                         "usernameExists": usernameExists
                     })
